@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/sage-wealth-design-system-6368d17b-064d-474b-9472-1dfcdba46f0f/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sage-wealth-design-system-6368d17b-064d-474b-9472-1dfcdba46f0f/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/sage-wealth-design-system-6368d17b-064d-474b-9472-1dfcdba46f0f/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/sage-wealth-design-system-6368d17b-064d-474b-9472-1dfcdba46f0f/styles.css">
+  <style>
+    html, body { margin: 0; background: #FFFFFF; }
+    body { font-family: var(--font-sans); color: var(--sage-black); }
+    a { color: var(--deep-sage-1); }
+    a:hover { color: var(--sage-black); }
+  </style>
+</helmet>
+<div style="padding: 40px 5vw 80px; max-width: 1400px; margin: 0 auto">
+  <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 20px; flex-wrap: wrap; border-bottom: 2px solid var(--sage-black); padding-bottom: 16px; margin-bottom: 8px">
+    <div>
+      <p style="font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--sage-green); font-weight: 300; margin: 0 0 8px">Internal &middot; Math audit &middot; Build-phase fact check</p>
+      <h1 style="font-family: var(--font-serif); font-weight: 300; font-size: 32px; margin: 0">Every calculation, one column at a time</h1>
+    </div>
+    <a href="LIRA Estimator.dc.html" style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase">&larr; Back to estimator</a>
+  </div>
+  <p style="font-size: 13px; color: var(--text-secondary); margin: 0 0 32px; line-height: 1.6; max-width: 780px">Recomputed live from the last inputs you ran in the estimator (stored locally). Change inputs there and re-run, then reload this page. All figures shown to the cent; the estimator rounds to whole dollars for display.</p>
+
+  <sc-if value="{{ noData }}" hint-placeholder-val="{{ false }}">
+    <div style="border: 1px solid var(--dove-gray); border-radius: 4px; padding: 40px; text-align: center; color: var(--text-secondary)">
+      <p style="margin: 0; font-size: 15px">No saved inputs found. Open the estimator, run a comparison, then return here.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasData }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 40px">
+
+      <section>
+        <h2 style="font-family: var(--font-serif); font-weight: 300; font-size: 22px; margin: 0 0 4px">1 &middot; Inputs &amp; derived assumptions</h2>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 14px">Raw entries and the values derived from them before any projection runs.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: var(--dove-gray); border: 1px solid var(--dove-gray)">
+          <sc-for list="{{ inputRows }}" as="row" hint-placeholder-count="12">
+            <div style="background: #FFFFFF; padding: 12px 14px">
+              <div style="font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 3px">{{ row.k }}</div>
+              <div style="font-size: 14px; font-variant-numeric: tabular-nums">{{ row.v }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section>
+        <h2 style="font-family: var(--font-serif); font-weight: 300; font-size: 22px; margin: 0 0 4px">2 &middot; Policy pricing &amp; trust buyout</h2>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 14px">From the pricing inventory for these insureds. Buyout = premium &times; (1 &minus; discount); this amount returns to the retirement account.</p>
+        <div style="overflow-x: auto">
+          <table style="border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; min-width: 640px">
+            <tbody>
+              <sc-for list="{{ pricingRows }}" as="row" hint-placeholder-count="6">
+                <tr>
+                  <td style="border: 1px solid var(--dove-gray); padding: 9px 14px; color: var(--text-secondary); background: var(--ice-gray, #F2F2F5); width: 340px">{{ row.k }}</td>
+                  <td style="border: 1px solid var(--dove-gray); padding: 9px 14px; text-align: right; font-weight: 500">{{ row.v }}</td>
+                  <td style="border: 1px solid var(--dove-gray); padding: 9px 14px; color: var(--text-secondary)">{{ row.note }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 style="font-family: var(--font-serif); font-weight: 300; font-size: 22px; margin: 0 0 4px">3 &middot; Current-plan projection, year by year</h2>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 14px">Starting balance {{ premiumFmt }}. Each column is one sub-step. Side fund holds after-tax RMDs (Scenario B); it is ignored in Scenario A.</p>
+        <div style="overflow-x: auto">
+          <table style="border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap">
+            <thead>
+              <tr>
+                <sc-for list="{{ traceCols }}" as="c" hint-placeholder-count="13">
+                  <th style="border: 1px solid var(--dove-gray); padding: 8px 10px; background: var(--sage-black); color: #FFFFFF; font-weight: 400; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; text-align: right">{{ c }}</th>
+                </sc-for>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ currentTrace }}" as="row" hint-placeholder-count="20">
+                <tr style="background: {{ row.bg }}">
+                  <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="13">
+                    <td style="border: 1px solid var(--dove-gray); padding: 7px 10px; text-align: right; color: {{ cell.c }}">{{ cell.v }}</td>
+                  </sc-for>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 12px 0 0">Ending IRA balance: <strong>{{ curBalFmt }}</strong> &middot; Ending side fund (Scenario B): <strong>{{ curSideFmt }}</strong> &middot; Total RMDs withdrawn: {{ curTotalRMDFmt }} &middot; Total tax on RMDs: {{ curTotalRmdTaxFmt }}</p>
+      </section>
+
+      <section>
+        <h2 style="font-family: var(--font-serif); font-weight: 300; font-size: 22px; margin: 0 0 4px">4 &middot; LIRA residual projection, year by year</h2>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 14px">The trust&rsquo;s buyout payment of {{ buyoutFmt }} returns to the account and is projected under identical growth and RMD rules.</p>
+        <div style="overflow-x: auto">
+          <table style="border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap">
+            <thead>
+              <tr>
+                <sc-for list="{{ traceCols }}" as="c" hint-placeholder-count="13">
+                  <th style="border: 1px solid var(--dove-gray); padding: 8px 10px; background: var(--deep-sage-1); color: #FFFFFF; font-weight: 400; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; text-align: right">{{ c }}</th>
+                </sc-for>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ residualTrace }}" as="row" hint-placeholder-count="20">
+                <tr style="background: {{ row.bg }}">
+                  <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="13">
+                    <td style="border: 1px solid var(--dove-gray); padding: 7px 10px; text-align: right; color: {{ cell.c }}">{{ cell.v }}</td>
+                  </sc-for>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 12px 0 0">Ending residual IRA balance: <strong>{{ resBalFmt }}</strong> &middot; Ending residual side fund: <strong>{{ resSideFmt }}</strong></p>
+      </section>
+
+      <section>
+        <h2 style="font-family: var(--font-serif); font-weight: 300; font-size: 22px; margin: 0 0 4px">5 &middot; Estate-tax detail by scenario</h2>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 14px">Taxable estate = other assets + modeled assets &minus; exemption. The 40% rate applies only to the modeled dollars sitting above the exemption. Other assets held flat at {{ otherAssetsFmt }}.</p>
+        <div style="overflow-x: auto">
+          <table style="border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap">
+            <thead>
+              <tr>
+                <sc-for list="{{ estateCols }}" as="c" hint-placeholder-count="8">
+                  <th style="border: 1px solid var(--dove-gray); padding: 8px 12px; background: var(--sage-black); color: #FFFFFF; font-weight: 400; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; text-align: right">{{ c }}</th>
+                </sc-for>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ estateRows }}" as="row" hint-placeholder-count="4">
+                <tr>
+                  <td style="border: 1px solid var(--dove-gray); padding: 8px 12px; background: var(--ice-gray, #F2F2F5)">{{ row.label }}</td>
+                  <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="7">
+                    <td style="border: 1px solid var(--dove-gray); padding: 8px 12px; text-align: right">{{ cell }}</td>
+                  </sc-for>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 style="font-family: var(--font-serif); font-weight: 300; font-size: 22px; margin: 0 0 4px">6 &middot; Net-to-heirs by scenario</h2>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 14px">Income tax = ending IRA balance &times; heir combined rate ({{ heirRatePct }}). The estimator selects the stronger current scenario ({{ chosenLabel }}) and the LIRA under the same treatment.</p>
+        <div style="overflow-x: auto">
+          <table style="border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap">
+            <thead>
+              <tr>
+                <sc-for list="{{ outcomeCols }}" as="c" hint-placeholder-count="7">
+                  <th style="border: 1px solid var(--dove-gray); padding: 8px 12px; background: var(--sage-black); color: #FFFFFF; font-weight: 400; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; text-align: right">{{ c }}</th>
+                </sc-for>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ outcomeRows }}" as="row" hint-placeholder-count="4">
+                <tr style="background: {{ row.bg }}">
+                  <td style="border: 1px solid var(--dove-gray); padding: 8px 12px; font-weight: 500">{{ row.label }}</td>
+                  <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="6">
+                    <td style="border: 1px solid var(--dove-gray); padding: 8px 12px; text-align: right">{{ cell }}</td>
+                  </sc-for>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 style="font-family: var(--font-serif); font-weight: 300; font-size: 22px; margin: 0 0 4px">7 &middot; Headline reconciliation</h2>
+        <div style="overflow-x: auto">
+          <table style="border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; min-width: 520px">
+            <tbody>
+              <sc-for list="{{ headlineRows }}" as="row" hint-placeholder-count="6">
+                <tr>
+                  <td style="border: 1px solid var(--dove-gray); padding: 9px 14px; color: var(--text-secondary); background: var(--ice-gray, #F2F2F5)">{{ row.k }}</td>
+                  <td style="border: 1px solid var(--dove-gray); padding: 9px 14px; text-align: right; font-weight: 500">{{ row.v }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { inp: null, res: null };
+  componentDidMount() {
+    import('./lira-model.js').then((m) => {
+      this.model = m;
+      try {
+        const inp = JSON.parse(localStorage.getItem('lira_audit_inp') || 'null');
+        if (inp) this.setState({ inp, res: m.project(inp) });
+        else this.forceUpdate();
+      } catch (e) { this.forceUpdate(); }
+    });
+  }
+  renderVals() {
+    const m = this.model;
+    const inp = this.state.inp;
+    const res = this.state.res;
+    if (!m || !inp || !res) return { hasData: false, noData: !!m };
+    const d2 = (n) => (n == null || isNaN(n)) ? '\u2014' : (n < 0 ? '\u2212$' : '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const pct = (x) => (x * 100).toFixed(3).replace(/\.?0+$/, '') + '%';
+    const SN = m.STATE_NAMES;
+    const gLabel = (g) => g === 'F' ? 'Female' : 'Male';
+    const hLabel = (h) => h === 'S' ? 'Standard' : 'Preferred';
+    const inputRows = [
+      { k: 'Insureds', v: inp.joint ? 'Two (survivorship)' : 'One' },
+      { k: 'Insured 1', v: gLabel(inp.gender) + ', age ' + inp.age + ', ' + hLabel(inp.health) },
+    ];
+    if (inp.joint) inputRows.push({ k: 'Insured 2', v: gLabel(inp.gender2) + ', age ' + inp.age2 + ', ' + hLabel(inp.health2) });
+    inputRows.push(
+      { k: 'Pre-tax balance for heirs', v: d2(inp.balance) },
+      { k: 'Assumed rate of return', v: pct(inp.ror) },
+      { k: 'Client state', v: (SN[inp.clientState] || inp.clientState) + ' (' + (m.STATE_RATES[inp.clientState] ?? 0) + '%)' },
+      { k: 'Heir state', v: (SN[inp.heirState] || inp.heirState) + ' (' + (m.STATE_RATES[inp.heirState] ?? 0) + '%)' },
+      { k: 'Total estate value', v: d2(inp.netWorth) },
+      { k: 'Other (non-modeled) assets', v: d2(res.otherAssets) },
+      { k: 'Birth year (derived)', v: String(res.birthYear) },
+      { k: 'RMD start age (derived)', v: String(res.startRMD) },
+      { k: 'Life-expectancy horizon', v: res.years + ' yrs (to age ' + res.deathAge + ', ' + res.deathYear + ')' },
+      { k: 'Client combined tax rate', v: pct(res.clientRate) },
+      { k: 'Heir combined tax rate', v: pct(res.heirRate) },
+      { k: 'Federal estate exemption', v: d2(res.exemption) },
+      { k: 'DB inside estate?', v: inp.dbInEstate ? 'Yes' : 'No' }
+    );
+    const pricingRows = [
+      { k: 'Death benefit per $5,000,000 premium', v: d2(res.db5m), note: inp.joint ? 'survivorship grid, interpolated' : 'individual inventory' },
+      { k: 'Premium (= pre-tax balance)', v: d2(res.premium), note: '' },
+      { k: 'Projected death benefit (DB)', v: d2(res.db), note: 'premium / 5,000,000 \u00d7 DB-per-5M' },
+      { k: 'Policy discount', v: pct(res.disc), note: 'IRS Rev. Proc. 2005-25 safe harbor' },
+      { k: 'Trust buyout price', v: d2(res.buyout), note: 'premium \u00d7 (1 \u2212 discount)' },
+    ];
+    const traceCols = ['Yr', 'Age', 'IRA begin', '\u00d7 ROR growth', 'After growth', 'RMD divisor', 'RMD gross', 'Tax on RMD', 'RMD net \u2192 side', 'Side begin', 'Side growth', 'Side end', 'IRA end'];
+    const mkTrace = (rows) => rows.map((x, i) => ({
+      bg: i % 2 ? '#F7F9F3' : '#FFFFFF',
+      cells: [
+        { v: String(x.year), c: 'var(--text-secondary)' },
+        { v: String(x.age), c: 'var(--text-secondary)' },
+        { v: d2(x.begin), c: 'inherit' },
+        { v: d2(x.growth), c: 'var(--deep-sage-1)' },
+        { v: d2(x.afterGrowth), c: 'inherit' },
+        { v: x.divisor == null ? '\u2014' : x.divisor.toFixed(1), c: 'var(--text-secondary)' },
+        { v: x.rmd ? d2(x.rmd) : '\u2014', c: 'inherit' },
+        { v: x.rmdTax ? '\u2212' + d2(x.rmdTax).replace('$', '$') : '\u2014', c: '#8A5A44' },
+        { v: x.rmdNet ? d2(x.rmdNet) : '\u2014', c: 'inherit' },
+        { v: d2(x.sideBegin), c: 'var(--text-secondary)' },
+        { v: d2(x.sideGrowth), c: 'var(--text-secondary)' },
+        { v: d2(x.sideEnd), c: 'inherit' },
+        { v: d2(x.iraEnd), c: 'inherit' },
+      ],
+    }));
+    const estateCols = ['Scenario', 'Modeled assets', '+ Other assets', '= Combined estate', '\u2212 Exemption', 'Taxable estate', 'Taxable modeled', '\u00d7 40% = tax'];
+    const eRow = (label, det) => ({ label, cells: [d2(det.assets), d2(det.otherAssets), d2(det.combined), d2(det.exemption), d2(det.taxableEstate), d2(det.taxableModeled), d2(det.tax)] });
+    const estateRows = [
+      eRow('A \u2014 distributions spent', res.A.estateDetail),
+      eRow('B \u2014 distributions saved', res.B.estateDetail),
+      eRow('LIRA (A treatment) residual', res.liraA.estateDetail),
+      eRow('LIRA (B treatment) residual', res.liraB.estateDetail),
+    ];
+    const outcomeCols = ['Scenario', 'Gross to estate', 'Estate tax', 'Income tax', 'DB (tax-free)', 'Net to heirs', 'Tax erosion %'];
+    const oRow = (label, s, db, dbEstateTax, bg) => ({ label, bg, cells: [
+      d2(s.gross), '\u2212' + d2(s.estateTax + (dbEstateTax || 0)), '\u2212' + d2(s.incomeTax),
+      db ? d2(db) : '\u2014', d2(s.net), pct(s.taxPct),
+    ] });
+    const outcomeRows = [
+      oRow('Current A', res.A, 0, 0, res.useB ? '#FFFFFF' : '#EFF3E6'),
+      oRow('Current B', res.B, 0, 0, res.useB ? '#EFF3E6' : '#FFFFFF'),
+      oRow('LIRA (A treatment)', res.liraA, res.liraA.db, res.liraA.dbEstateTax, res.useB ? '#FFFFFF' : '#F2F6EC'),
+      oRow('LIRA (B treatment)', res.liraB, res.liraB.db, res.liraB.dbEstateTax, res.useB ? '#F2F6EC' : '#FFFFFF'),
+    ];
+    const headlineRows = [
+      { k: 'Chosen current scenario', v: res.useB ? 'B \u2014 distributions saved' : 'A \u2014 distributions spent' },
+      { k: 'Current plan \u2014 net to heirs', v: d2(res.bestCurrent) },
+      { k: 'LIRA strategy \u2014 net to heirs', v: d2(res.lira.net) },
+      { k: 'Tax-free advantage to heirs', v: d2(res.advantage) },
+      { k: 'Advantage as % of current net', v: pct(res.advantage / Math.max(1, res.bestCurrent)) },
+    ];
+    return {
+      hasData: true, noData: false,
+      inputRows, pricingRows, traceCols,
+      currentTrace: mkTrace(res.trace.current), residualTrace: mkTrace(res.trace.residual),
+      estateCols, estateRows, outcomeCols, outcomeRows, headlineRows,
+      premiumFmt: d2(res.premium), buyoutFmt: d2(res.buyout), otherAssetsFmt: d2(res.otherAssets),
+      curBalFmt: d2(res.curBal), curSideFmt: d2(res.curSide), resBalFmt: d2(res.resBal), resSideFmt: d2(res.resSide),
+      curTotalRMDFmt: d2(res.curTotalRMD), curTotalRmdTaxFmt: d2(res.curTotalRmdTax),
+      heirRatePct: pct(res.heirRate), chosenLabel: res.useB ? 'B' : 'A',
+    };
+  }
+}
+</script>
+</body>
+</html>
