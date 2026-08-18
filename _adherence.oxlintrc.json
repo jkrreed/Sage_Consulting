@@ -1,0 +1,389 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/collateral/**",
+              "components/core/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Cormorant Infant|Poppins))/i]",
+        "message": "Font not provided by the design system. Available: Cormorant Infant, Poppins."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Badge'] > JSXAttribute > JSXIdentifier[name!=/^(?:tone|children|key|ref|className|style|children)$/]",
+        "message": "<Badge> doesn't accept that prop. Declared props: tone, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Badge'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:sage|outline|gold|neutral)$/]",
+        "message": "<Badge> tone must be one of 'sage' | 'outline' | 'gold' | 'neutral'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|size|children|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: variant, size, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|secondary|ghost)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'secondary' | 'ghost'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<Button> size must be one of 'sm' | 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Callout'] > JSXAttribute > JSXIdentifier[name!=/^(?:tone|keyline|label|children|key|ref|className|style|children)$/]",
+        "message": "<Callout> doesn't accept that prop. Declared props: tone, keyline, label, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Callout'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:panel|wash|tinted)$/]",
+        "message": "<Callout> tone must be one of 'panel' | 'wash' | 'tinted'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ComparisonRow'] > JSXAttribute > JSXIdentifier[name!=/^(?:before|after|replacedWith|key|ref|className|style|children)$/]",
+        "message": "<ComparisonRow> doesn't accept that prop. Declared props: before, after, replacedWith."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DisclaimerFooter'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|tone|key|ref|className|style|children)$/]",
+        "message": "<DisclaimerFooter> doesn't accept that prop. Declared props: variant, tone."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DisclaimerFooter'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:standard|bga)$/]",
+        "message": "<DisclaimerFooter> variant must be one of 'standard' | 'bga'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DisclaimerFooter'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:light|dark)$/]",
+        "message": "<DisclaimerFooter> tone must be one of 'light' | 'dark'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='GoldRule'] > JSXAttribute > JSXIdentifier[name!=/^(?:width|endcaps|align|key|ref|className|style|children)$/]",
+        "message": "<GoldRule> doesn't accept that prop. Declared props: width, endcaps, align."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='GoldRule'] > JSXAttribute[name.name='align'] > Literal[value!=/^(?:left|center|right)$/]",
+        "message": "<GoldRule> align must be one of 'left' | 'center' | 'right'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Logo'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|size|showTagline|src|alt|colorway|style|key|ref|className|style|children)$/]",
+        "message": "<Logo> doesn't accept that prop. Declared props: variant, size, showTagline, src, alt, colorway, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Logo'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:mark|lockup)$/]",
+        "message": "<Logo> variant must be one of 'mark' | 'lockup'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Logo'] > JSXAttribute[name.name='colorway'] > Literal[value!=/^(?:green|white|green-on-dark)$/]",
+        "message": "<Logo> colorway must be one of 'green' | 'white' | 'green-on-dark'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ProcessFlow'] > JSXAttribute > JSXIdentifier[name!=/^(?:steps|orientation|circleSize|tone|key|ref|className|style|children)$/]",
+        "message": "<ProcessFlow> doesn't accept that prop. Declared props: steps, orientation, circleSize, tone."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ProcessFlow'] > JSXAttribute[name.name='orientation'] > Literal[value!=/^(?:horizontal|vertical)$/]",
+        "message": "<ProcessFlow> orientation must be one of 'horizontal' | 'vertical'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ProcessFlow'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:default|on-dark)$/]",
+        "message": "<ProcessFlow> tone must be one of 'default' | 'on-dark'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PullQuote'] > JSXAttribute > JSXIdentifier[name!=/^(?:italic|tone|size|attribution|children|key|ref|className|style|children)$/]",
+        "message": "<PullQuote> doesn't accept that prop. Declared props: italic, tone, size, attribution, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PullQuote'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:default|on-dark|on-wash)$/]",
+        "message": "<PullQuote> tone must be one of 'default' | 'on-dark' | 'on-wash'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PullQuote'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<PullQuote> size must be one of 'sm' | 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SageEffectBar'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|tagline|height|key|ref|className|style|children)$/]",
+        "message": "<SageEffectBar> doesn't accept that prop. Declared props: label, tagline, height."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionLabel'] > JSXAttribute > JSXIdentifier[name!=/^(?:as|font|tone|align|children|key|ref|className|style|children)$/]",
+        "message": "<SectionLabel> doesn't accept that prop. Declared props: as, font, tone, align, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionLabel'] > JSXAttribute[name.name='font'] > Literal[value!=/^(?:sans|serif)$/]",
+        "message": "<SectionLabel> font must be one of 'sans' | 'serif'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionLabel'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:default|accent|on-dark)$/]",
+        "message": "<SectionLabel> tone must be one of 'default' | 'accent' | 'on-dark'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionLabel'] > JSXAttribute[name.name='align'] > Literal[value!=/^(?:left|center|right)$/]",
+        "message": "<SectionLabel> align must be one of 'left' | 'center' | 'right'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='TwoColumnFramework'] > JSXAttribute > JSXIdentifier[name!=/^(?:rows|leftHeader|rightHeader|thirdHeader|key|ref|className|style|children)$/]",
+        "message": "<TwoColumnFramework> doesn't accept that prop. Declared props: rows, leftHeader, rightHeader, thirdHeader."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Badge": {
+        "replaces": []
+      },
+      "Button": {
+        "replaces": []
+      },
+      "Callout": {
+        "replaces": []
+      },
+      "ComparisonRow": {
+        "replaces": []
+      },
+      "DisclaimerFooter": {
+        "replaces": []
+      },
+      "GoldRule": {
+        "replaces": []
+      },
+      "Logo": {
+        "replaces": []
+      },
+      "ProcessFlow": {
+        "replaces": []
+      },
+      "PullQuote": {
+        "replaces": []
+      },
+      "SageEffectBar": {
+        "replaces": []
+      },
+      "SectionLabel": {
+        "replaces": []
+      },
+      "TwoColumnFramework": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--art-panel-width",
+      "--border-hair",
+      "--border-rule",
+      "--border-thin",
+      "--brand-green",
+      "--brand-green-on-dark",
+      "--deep-sage-1",
+      "--deep-sage-2",
+      "--deep-sage-3",
+      "--deep-sage-4",
+      "--divider",
+      "--divider-sage",
+      "--dove-gray",
+      "--font-sans",
+      "--font-serif",
+      "--footer-bar-height",
+      "--gold",
+      "--gray-medium",
+      "--ground-dark",
+      "--ground-footer",
+      "--header-bar",
+      "--header-bar-height",
+      "--ice-gray",
+      "--leading-body",
+      "--leading-display",
+      "--leading-tight",
+      "--leading-title",
+      "--page-margin",
+      "--radius-md",
+      "--radius-none",
+      "--radius-pill",
+      "--radius-sm",
+      "--rule-gold",
+      "--sage-black",
+      "--sage-black-alt",
+      "--sage-footer-dark",
+      "--sage-green",
+      "--sage-green-footer",
+      "--sage-medium",
+      "--sage-mist",
+      "--sage-pale",
+      "--sage-pale-2",
+      "--sage-wash",
+      "--shadow-card",
+      "--shadow-none",
+      "--shadow-panel",
+      "--silver",
+      "--space-1",
+      "--space-10",
+      "--space-2",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--space-7",
+      "--space-8",
+      "--space-9",
+      "--surface-page",
+      "--surface-panel",
+      "--surface-tinted",
+      "--surface-wash",
+      "--tan",
+      "--text-accent",
+      "--text-body",
+      "--text-body-font",
+      "--text-body-weight",
+      "--text-display-font",
+      "--text-display-weight",
+      "--text-on-dark",
+      "--text-on-dark-accent",
+      "--text-secondary",
+      "--tracking-label",
+      "--tracking-label-tight",
+      "--type-body",
+      "--type-caption",
+      "--type-display",
+      "--type-heading",
+      "--type-label",
+      "--type-lead",
+      "--type-small",
+      "--type-subhead",
+      "--type-title",
+      "--weight-body",
+      "--weight-light",
+      "--weight-medium",
+      "--weight-serif",
+      "--white",
+      "--white-sage"
+    ],
+    "tokenKinds": {
+      "--sage-black": "color",
+      "--sage-black-alt": "color",
+      "--sage-footer-dark": "color",
+      "--sage-green": "color",
+      "--sage-green-footer": "color",
+      "--deep-sage-1": "color",
+      "--deep-sage-2": "color",
+      "--deep-sage-3": "color",
+      "--deep-sage-4": "color",
+      "--sage-wash": "color",
+      "--sage-mist": "color",
+      "--sage-pale": "color",
+      "--sage-pale-2": "color",
+      "--sage-medium": "color",
+      "--gold": "color",
+      "--tan": "color",
+      "--silver": "color",
+      "--ice-gray": "color",
+      "--dove-gray": "color",
+      "--gray-medium": "color",
+      "--white": "color",
+      "--white-sage": "color",
+      "--ground-dark": "color",
+      "--ground-footer": "color",
+      "--surface-page": "color",
+      "--surface-wash": "color",
+      "--surface-panel": "color",
+      "--surface-tinted": "color",
+      "--text-on-dark": "font",
+      "--text-on-dark-accent": "font",
+      "--text-body": "font",
+      "--text-secondary": "font",
+      "--text-accent": "font",
+      "--divider": "color",
+      "--divider-sage": "color",
+      "--header-bar": "color",
+      "--rule-gold": "color",
+      "--brand-green": "color",
+      "--brand-green-on-dark": "color",
+      "--font-serif": "font",
+      "--font-sans": "font",
+      "--weight-serif": "font",
+      "--weight-body": "font",
+      "--weight-light": "font",
+      "--weight-medium": "font",
+      "--type-display": "font",
+      "--type-title": "font",
+      "--type-heading": "font",
+      "--type-subhead": "font",
+      "--type-lead": "font",
+      "--type-body": "font",
+      "--type-small": "font",
+      "--type-caption": "font",
+      "--type-label": "font",
+      "--tracking-label": "font",
+      "--tracking-label-tight": "font",
+      "--leading-display": "font",
+      "--leading-title": "font",
+      "--leading-body": "font",
+      "--leading-tight": "font",
+      "--text-display-font": "font",
+      "--text-display-weight": "font",
+      "--text-body-font": "font",
+      "--text-body-weight": "font",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--space-7": "spacing",
+      "--space-8": "spacing",
+      "--space-9": "spacing",
+      "--space-10": "spacing",
+      "--page-margin": "spacing",
+      "--header-bar-height": "spacing",
+      "--footer-bar-height": "spacing",
+      "--art-panel-width": "spacing",
+      "--radius-none": "radius",
+      "--radius-sm": "radius",
+      "--radius-md": "radius",
+      "--radius-pill": "radius",
+      "--border-thin": "spacing",
+      "--border-rule": "spacing",
+      "--border-hair": "spacing",
+      "--shadow-none": "shadow",
+      "--shadow-card": "shadow",
+      "--shadow-panel": "shadow"
+    },
+    "fontFamilies": [
+      "Cormorant Infant",
+      "Poppins"
+    ]
+  }
+}

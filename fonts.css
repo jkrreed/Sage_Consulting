@@ -1,0 +1,9 @@
+/* ============================================================
+   Sage — Webfonts
+   Primary serif:  Cormorant Infant (Light only — never bold)
+   Primary sans:   Poppins (Regular + Light)
+   Loaded from Google Fonts. NOTE: self-hosted binaries not yet
+   supplied — see readme.md "Fonts" caveat.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300;0,400;1,300;1,400&family=Poppins:wght@300;400;500&display=swap');

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Legacy-IRA Plan&trade; &middot; Client Value Estimator | Sage Consulting &amp; Wealth Preservation</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="lira-gate">
+  <div id="lira-gate-box">
+    <div id="lira-gate-eyebrow">Sage Consulting &amp; Wealth Preservation</div>
+    <div id="lira-gate-title">The Legacy-IRA Plan&trade;</div>
+    <div id="lira-gate-sub">This tool is for authorized preview only.<br>Please enter the access password to continue.</div>
+    <input id="lira-gate-input" type="password" placeholder="Password" autocomplete="off">
+    <button id="lira-gate-btn" type="button">Enter</button>
+    <div id="lira-gate-error"></div>
+  </div>
+</div>
+<script type="module" src="js/gate.js"></script>
+
+<header class="sage-header">
+  <div class="sage-header__row">
+    <div>
+      <p class="sage-eyebrow">The Legacy-IRA Plan&trade; &middot; Client Value Estimator</p>
+      <h1>What could your current plan leave behind &mdash; and what might the Legacy-IRA Plan&trade; leave instead?</h1>
+    </div>
+    <img class="sage-mark" src="assets/sage-lotus-mark.png" alt="Sage">
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ SCREEN 1: INTAKE ============ -->
+  <section id="screen-intake" class="sage-form-wrap">
+    <form id="intake-form" class="sage-form">
+      <div>
+        <h3>About the client</h3>
+        <p class="sage-hint">A few basics. We project both paths to life expectancy with every assumption in view.</p>
+      </div>
+
+      <div class="field">
+        <label for="f-joint">Insureds</label>
+        <select id="f-joint" name="joint">
+          <option value="one">One insured</option>
+          <option value="two">Two insureds &mdash; survivorship</option>
+        </select>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label id="insured1-label" for="f-age">Client age</label>
+          <input type="number" id="f-age" name="age" min="55" max="75" value="65">
+        </div>
+        <div class="field">
+          <label for="f-gender">Gender</label>
+          <select id="f-gender" name="gender">
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-health">Health</label>
+          <select id="f-health" name="health">
+            <option value="P">Preferred</option>
+            <option value="S">Standard</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="second-insured-row" class="field-row hidden">
+        <div class="field">
+          <label for="f-age2">Second insured age</label>
+          <input type="number" id="f-age2" name="age2" min="55" max="80" value="62">
+        </div>
+        <div class="field">
+          <label for="f-gender2">Gender</label>
+          <select id="f-gender2" name="gender2">
+            <option value="F">Female</option>
+            <option value="M">Male</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-health2">Health</label>
+          <select id="f-health2" name="health2">
+            <option value="P">Preferred</option>
+            <option value="S">Standard</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-balance">Pre-tax retirement assets intended for heirs</label>
+        <input type="text" inputmode="numeric" id="f-balance" name="balanceStr" placeholder="$1,000,000">
+        <p class="field-note">The portion of the IRA or 401(k) the client plans to leave in the account and pass on.</p>
+      </div>
+
+      <div class="field">
+        <label id="ror-label" for="f-ror">Assumed rate of return &mdash; 8%</label>
+        <input type="range" id="f-ror" name="ror" min="0" max="12" step="0.5" value="8">
+      </div>
+
+      <div class="field-row-2">
+        <div class="field">
+          <label for="f-clientState">Client&rsquo;s state</label>
+          <select id="f-clientState" name="clientState"></select>
+        </div>
+        <div class="field">
+          <label for="f-heirState">Heir&rsquo;s state</label>
+          <select id="f-heirState" name="heirState"></select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-netWorth">Total estate value today</label>
+        <input type="text" inputmode="numeric" id="f-netWorth" name="netWorthStr" placeholder="$10,000,000">
+        <p class="field-note">Approximate net worth, including these retirement assets. Used only to gauge estate-tax exposure.</p>
+      </div>
+
+      <p id="form-error" class="form-error hidden"></p>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-full">See the comparison</button>
+      <p class="field-note">No sales pressure &mdash; only clarity. Nothing is submitted at this step.</p>
+    </form>
+  </section>
+
+  <!-- ============ SCREEN 2: CALCULATING ============ -->
+  <section id="screen-calc" class="calc-wrap hidden">
+    <div class="calc-inner">
+      <p class="sage-eyebrow" style="color: var(--sage-green); letter-spacing: 0.26em;">Preparing your comparison</p>
+      <h2>A careful projection takes a moment.</h2>
+      <div id="calc-steps"></div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 3: RESULTS ============ -->
+  <section id="screen-results" class="results-wrap hidden">
+    <div>
+      <button type="button" id="back-to-intake" class="link-button">&larr; Adjust the inputs</button>
+    </div>
+
+    <div class="headline-grid">
+      <div class="headline-card panel">
+        <p class="eyebrow">Total tax erosion &mdash; current planning</p>
+        <p class="big-number" id="r-taxTotal">&mdash;</p>
+        <p class="detail">an estimated <span id="r-taxPct"></span> of the pre-tax retirement balance at <span id="r-deathLabelA"></span> is subtracted by income &amp; estate taxes before it reaches heirs.</p>
+      </div>
+      <div class="headline-card wash">
+        <p class="eyebrow">Tax-free advantage to heirs</p>
+        <p class="big-number" id="r-advantage">&mdash;</p>
+        <p class="detail">more to heirs than the stronger current-plan projection &mdash; a hypothetical estimate based on the assumptions shown, not a guarantee.</p>
+      </div>
+    </div>
+
+    <div class="bars">
+      <div class="bar-row current">
+        <div class="bar-label">
+          <span>Current plan &mdash; net to heirs</span>
+          <span id="r-bestCurrent">&mdash;</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-current" style="width: 2%"></div></div>
+      </div>
+      <div class="bar-row lira">
+        <div class="bar-label">
+          <span>Legacy-IRA Plan&trade; &mdash; net to heirs</span>
+          <span id="r-netLira">&mdash;</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-lira" style="width: 2%"></div></div>
+      </div>
+    </div>
+
+    <div>
+      <p class="section-label">Comparison to current planning</p>
+      <p class="section-note">All at life expectancy and an IRA growth rate of <span id="r-rorPct"></span>.</p>
+      <div class="comp-table" id="comp-table">
+        <div class="head-blank"></div>
+        <div class="head current">Current planning</div>
+        <div class="head lira">LIRA strategy</div>
+        <!-- rows injected here -->
+        <div class="total-label">Tax-free advantage to heirs</div>
+        <div class="total-blank"></div>
+        <div class="total-value" id="r-advantage2">&mdash;</div>
+      </div>
+    </div>
+
+    <div>
+      <p class="section-label">How each path arrives there</p>
+      <div class="path-grid">
+        <div class="path-card">
+          <p class="eyebrow">Current plan A</p>
+          <h4>Distributions are spent</h4>
+          <div class="lines">
+            <div class="line"><span>Account at <span id="r-deathLabelB"></span></span><span id="r-curBal">&mdash;</span></div>
+            <div class="line"><span>Estate tax</span><span id="r-estateTaxA">&mdash;</span></div>
+            <div class="line"><span>Heir income tax (<span id="r-heirRatePctA"></span>)</span><span id="r-incomeTaxA">&mdash;</span></div>
+            <div class="line total"><span>Net to heirs</span><span id="r-netA">&mdash;</span></div>
+          </div>
+        </div>
+        <div class="path-card">
+          <p class="eyebrow">Current plan B</p>
+          <h4>Distributions are saved</h4>
+          <div class="lines">
+            <div class="line"><span>Account + side fund</span><span id="r-grossB">&mdash;</span></div>
+            <div class="line"><span>Estate tax</span><span id="r-estateTaxB">&mdash;</span></div>
+            <div class="line"><span>Heir income tax (<span id="r-heirRatePctB"></span>)</span><span id="r-incomeTaxB">&mdash;</span></div>
+            <div class="line total"><span>Net to heirs</span><span id="r-netB">&mdash;</span></div>
+          </div>
+        </div>
+        <div class="path-card lira">
+          <p class="eyebrow">Legacy-IRA Plan&trade;</p>
+          <h4>Assets repositioned</h4>
+          <div class="lines">
+            <div class="line"><span>Benefit to heirs, income-tax-free</span><span id="r-db">&mdash;</span></div>
+            <div class="line"><span>Estate tax on benefit<span id="r-liraEstateNote"></span></span><span id="r-dbEstateTax">&mdash;</span></div>
+            <div class="line"><span>Trust purchase of <span id="r-buyout"></span> returned to the account &mdash; net at death</span><span id="r-residualNet">&mdash;</span></div>
+            <div class="line total"><span>Net to heirs</span><span id="r-netLira2">&mdash;</span></div>
+          </div>
+          <p class="fine-print">The trust purchases the policy for <span id="r-buyout2"></span>; that amount returns to the retirement account and continues to compound as before.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-steps">
+      <p class="section-label">Next steps</p>
+      <h3>This estimate is the beginning of a conversation, not the end of one.</h3>
+      <p>A formal analysis is prepared case by case, with carrier-verified figures. You control the relationship. We control the complexity.</p>
+      <div class="actions">
+        <a href="analysis-request.html" id="go-analysis" class="btn btn-primary btn-lg">Request a formal analysis</a>
+        <a href="https://calendly.com/" id="go-meeting" target="_blank" rel="noopener" class="btn btn-secondary btn-lg on-dark">Meet with our team</a>
+      </div>
+    </div>
+
+    <div class="advisor-panel">
+      <button type="button" id="advisor-toggle" class="advisor-toggle">
+        <span class="label">For the advisor &mdash; assumptions behind these figures</span>
+        <span class="chevron" id="advisor-chevron">+</span>
+      </button>
+      <div class="advisor-body hidden" id="advisor-body">
+        <p id="adv-p1"></p>
+        <p id="adv-p2"></p>
+        <p id="adv-p3"></p>
+        <p>Benefit and discount figures derive from Sage&rsquo;s current pricing inventory for the insureds&rsquo; ages and health classes; survivorship pricing is modeled on a male/female basis and interpolated across a five-year age grid. State rates are approximate top marginal rates. All figures are hypothetical and subject to underwriting, carrier pricing, and current law.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="footer-mount"></div>
+
+<script type="module" src="js/estimator.js"></script>
+</body>
+</html>

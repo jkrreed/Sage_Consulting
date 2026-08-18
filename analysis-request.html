@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request a Formal Analysis | Sage Consulting &amp; Wealth Preservation</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="lira-gate">
+  <div id="lira-gate-box">
+    <div id="lira-gate-eyebrow">Sage Consulting &amp; Wealth Preservation</div>
+    <div id="lira-gate-title">The Legacy-IRA Plan&trade;</div>
+    <div id="lira-gate-sub">This tool is for authorized preview only.<br>Please enter the access password to continue.</div>
+    <input id="lira-gate-input" type="password" placeholder="Password" autocomplete="off">
+    <button id="lira-gate-btn" type="button">Enter</button>
+    <div id="lira-gate-error"></div>
+  </div>
+</div>
+<script type="module" src="js/gate.js"></script>
+
+<header class="sage-header">
+  <div class="sage-header__row">
+    <div>
+      <p class="sage-eyebrow">The Legacy-IRA Plan&trade; &middot; Formal Analysis Request</p>
+      <h1 style="font-size: 40px;">Request a formal analysis</h1>
+      <p class="sage-subtitle">We carried over what you already entered. A few more details tell us who is involved so our team can prepare the case properly.</p>
+    </div>
+    <img class="sage-mark" style="width: 64px;" src="assets/sage-lotus-mark.png" alt="Sage">
+  </div>
+</header>
+
+<main>
+  <div style="padding: 52px 8vw 64px; max-width: 880px;">
+
+    <!-- ============ CONFIRMATION (shown after submit) ============ -->
+    <div id="confirm-panel" class="confirm-panel hidden">
+      <p class="eyebrow">Request received</p>
+      <h2>Your request has been sent to our team.</h2>
+      <p class="body">A member of Sage Consulting &amp; Wealth Preservation will reach out to you directly to gather anything further and discuss next steps. No documents are sent automatically &mdash; every analysis is prepared case by case.</p>
+      <div class="actions">
+        <a href="index.html" class="btn btn-secondary btn-md">Back to the estimator</a>
+        <a href="https://calendly.com/" id="go-meeting-confirm" target="_blank" rel="noopener" class="btn btn-primary btn-md">Meet with our team</a>
+      </div>
+    </div>
+
+    <!-- ============ FORM ============ -->
+    <form id="request-form" style="display:flex; flex-direction:column; gap:36px;">
+      <div>
+        <p class="section-label">From the estimator</p>
+        <div id="summary-strip" class="summary-strip"></div>
+        <p class="field-note" style="margin-top:10px;">Anything to correct? <a href="index.html">Return to the estimator</a> and recalculate before submitting.</p>
+      </div>
+
+      <div>
+        <p class="section-label">About you, the advisor</p>
+        <div class="field-row-2">
+          <div class="field">
+            <label for="advisorName">Your name</label>
+            <input required type="text" id="advisorName" name="advisorName">
+          </div>
+          <div class="field">
+            <label for="advisorFirm">Firm</label>
+            <input required type="text" id="advisorFirm" name="advisorFirm">
+          </div>
+          <div class="field">
+            <label for="advisorEmail">Work email</label>
+            <input required type="email" id="advisorEmail" name="advisorEmail">
+          </div>
+          <div class="field">
+            <label for="advisorPhone">Phone</label>
+            <input type="tel" id="advisorPhone" name="advisorPhone">
+          </div>
+          <div class="field">
+            <label for="advisorRole">Your role</label>
+            <select id="advisorRole" name="advisorRole">
+              <option value="Financial Advisor">Financial advisor</option>
+              <option value="CPA">CPA</option>
+              <option value="Estate Attorney">Estate attorney</option>
+              <option value="Insurance Agent">Insurance agent</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="referral">How did you hear about Sage?</label>
+            <select id="referral" name="referral">
+              <option value="">Select one</option>
+              <option value="Referral from a colleague">Referral from a colleague</option>
+              <option value="My BGA or IMO">My BGA or IMO</option>
+              <option value="Webinar or event">Webinar or event</option>
+              <option value="Existing relationship with Sage">Existing relationship with Sage</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label">About the client</p>
+        <div class="field-row-2">
+          <div class="field">
+            <label for="clientName">Client name</label>
+            <input required type="text" id="clientName" name="clientName">
+          </div>
+          <div class="field">
+            <label for="clientContact">Client email or phone</label>
+            <input type="text" id="clientContact" name="clientContact">
+          </div>
+        </div>
+        <div class="field-row-2" style="margin-top:16px;">
+          <div class="field">
+            <label for="exemptionUsed">Lifetime gift &amp; estate exemption already used</label>
+            <input type="text" inputmode="numeric" id="exemptionUsed" name="exemptionUsed" placeholder="$0">
+            <p class="field-note">An estimate is fine &mdash; prior taxable gifts reduce the exemption available at death.</p>
+          </div>
+        </div>
+        <div class="field" style="margin-top:16px;">
+          <label for="notes">Anything else we should know (optional)</label>
+          <textarea rows="3" id="notes" name="notes"></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+        <button type="submit" class="btn btn-primary btn-lg">Send request to Sage</button>
+        <p class="field-note" style="max-width:380px;">Your request goes to our advanced planning team. We do not contact your client directly without you.</p>
+      </div>
+    </form>
+  </div>
+</main>
+
+<div id="footer-mount"></div>
+
+<script type="module" src="js/analysis-request.js"></script>
+</body>
+</html>

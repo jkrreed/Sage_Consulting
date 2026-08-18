@@ -1,0 +1,48 @@
+/* ============================================================
+   Sage — Typography Tokens
+   Authority comes from layout and spacing, NEVER weight.
+   Serif is Light only. Section labels are spaced uppercase.
+   ============================================================ */
+
+:root {
+  /* --- Families --- */
+  --font-serif: "Cormorant Infant", Georgia, "Times New Roman", serif; /* display, titles, pull-quotes */
+  --font-sans:  "Poppins", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; /* body, tables, labels */
+
+  /* --- Weights (serif: light only) --- */
+  --weight-serif:        300; /* Cormorant Infant Light — the ONLY serif weight */
+  --weight-body:         400; /* Poppins Regular */
+  --weight-light:        300; /* Poppins Light — subtitles, secondary labels */
+  --weight-medium:       500; /* Poppins Medium — sparing emphasis in UI only */
+
+  /* --- Display / serif scale (Cormorant Infant Light) --- */
+  --type-display:        72px; /* cover titles, large */
+  --type-title:          48px; /* primary titles */
+  --type-heading:        34px; /* section headers */
+  --type-subhead:        26px; /* sub-headers, pull-quotes */
+
+  /* --- Body / sans scale (Poppins) --- */
+  --type-lead:           18px; /* lead paragraphs, subtitles */
+  --type-body:           15px; /* standard body, bullets */
+  --type-small:          13px; /* table cells, secondary */
+  --type-caption:        11px; /* footer disclaimers, captions */
+
+  /* --- Section labels (spaced uppercase) --- */
+  --type-label:          13px;
+  --tracking-label:      0.28em; /* ~280% — generous, quiet authority */
+  --tracking-label-tight:0.2em;  /* ~200% — smaller labels */
+
+  /* --- Line heights --- */
+  --leading-display:     1.05;
+  --leading-title:       1.12;
+  --leading-body:        1.6;
+  --leading-tight:       1.3;
+
+  /* ==========================================================
+     Semantic aliases
+     ========================================================== */
+  --text-display-font:   var(--font-serif);
+  --text-display-weight: var(--weight-serif);
+  --text-body-font:      var(--font-sans);
+  --text-body-weight:    var(--weight-body);
+}
